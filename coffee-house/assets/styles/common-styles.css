@@ -1,0 +1,113 @@
+:root {
+  --text-dark: #403f3d;
+  --text-light: #e1d4c9;
+  --text-accent: #b0907a;
+  --background-body: #e1d4c9;
+  --background-container: #665f55;
+  --background-backdrop: rgba(64, 63, 61, 0.8);
+  --border-light: #c1b6ad;
+  --border-dark: #665f55;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+}
+
+button,
+p {
+  padding: 0;
+  margin: 0;
+}
+
+ul {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+.heading {
+  margin: 0;
+}
+
+.heading-1 {
+  font-size: 72px;
+  font-weight: 600;
+  line-height: 105%;
+}
+
+.heading-2 {
+  font-size: 60px;
+  font-weight: 600;
+  line-height: 125%;
+}
+
+.heading-3 {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 125%;
+}
+
+.text-medium {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 150%;
+}
+
+.caption {
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 140%;
+}
+
+.link,
+.button {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 150%;
+}
+
+.burger-link {
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 125%;
+}
+
+/* @font-face {
+  font-family: "Inter";
+  src:
+  url("./assets/fonts/Inter-BoldItalic.otf") format("opentype"),
+} */
+
+.body {
+  background: var(--background-body);
+  color: var(--text-dark);
+  padding: 0 40px;
+  max-width: 1440px;
+  margin: 0 auto;
+  font-family: "Inter", "Questrial", sans-serif;
+}
+
+.text_accent {
+  color: var(--text-accent);
+  font-style: italic;
+  font-feature-settings: "clig" off, "liga" off;
+}
