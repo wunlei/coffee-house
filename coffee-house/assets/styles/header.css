@@ -1,0 +1,89 @@
+/* header */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.h1_hidden {
+  display: none;
+}
+
+.logo__img {
+  display: block;
+}
+
+.logo_disabled {
+  pointer-events: none;
+}
+
+.header-nav__list {
+  display: flex;
+  column-gap: 40px;
+}
+
+.header-nav__link {
+  position: relative;
+}
+
+.header-nav__link::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  width: 0;
+  left: 0;
+  height: 2px;
+  background-color: var(--text-dark);
+  transition: width 0.5s;
+}
+
+.header-nav__link:hover::after {
+  width: 100%;
+}
+
+.header__btn-menu {
+  background: transparent;
+  border: none;
+  display: flex;
+  column-gap: 8px;
+}
+
+.icon_coffee {
+  display: block;
+  padding-bottom: 6px;
+}
+
+.header__btn-menu {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.header__btn-menu:hover {
+  cursor: pointer;
+}
+
+.header__btn-menu::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  width: 0;
+  left: 0;
+  height: 2px;
+  background-color: var(--text-dark);
+  transition: width 0.5s;
+}
+
+.header__btn-menu:hover::after {
+  width: 100%;
+}
+
+.header__btn-menu_active {
+  pointer-events: none;
+}
+
+.header__btn-menu_active::after {
+  width: 100%;
+}
