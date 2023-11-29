@@ -32,15 +32,17 @@
   content: "";
   position: absolute;
   bottom: -1px;
-  width: 0;
+  width: 100%;
   left: 0;
   height: 2px;
   background-color: var(--text-dark);
-  transition: width 0.5s;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.5s;
 }
 
 .header-nav__link:hover::after {
-  width: 100%;
+  transform: scaleX(100%);
 }
 
 .header__btn-menu {
@@ -69,15 +71,17 @@
   content: "";
   position: absolute;
   bottom: -1px;
-  width: 0;
+  width: 100%;
   left: 0;
   height: 2px;
   background-color: var(--text-dark);
-  transition: width 0.5s;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.5s;
 }
 
 .header__btn-menu:hover::after {
-  width: 100%;
+  transform: scaleX(100%);
 }
 
 .header__btn-menu_active {
@@ -85,5 +89,5 @@
 }
 
 .header__btn-menu_active::after {
-  width: 100%;
+  transform: scaleX(100%);
 }

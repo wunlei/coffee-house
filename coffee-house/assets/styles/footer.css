@@ -76,13 +76,15 @@
   content: "";
   position: absolute;
   bottom: -8px;
-  width: 0;
+  width: 100%;
   left: 0;
   height: 2px;
   background-color: var(--text-light);
-  transition: width 0.5s;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.5s;
 }
 
 .contacts-list__link:hover::after {
-  width: 100%;
+  transform: scaleX(100%);
 }
