@@ -104,10 +104,23 @@ li {
   max-width: 1440px;
   margin: 0 auto;
   font-family: "Inter", "Questrial", sans-serif;
+  --body-padding: 40px;
 }
 
 .text_accent {
   color: var(--text-accent);
   font-style: italic;
   font-feature-settings: "clig" off, "liga" off;
+}
+
+@media all and (max-width: 767px) {
+  .heading-1 {
+    font-size: 42px;
+    line-height: 115%;
+  }
+
+  .heading-2 {
+    font-size: 32px;
+    line-height: 125%;
+  }
 }
