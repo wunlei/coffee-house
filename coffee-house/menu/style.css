@@ -46,6 +46,7 @@
 }
 
 .nav-category__badge_active {
+  pointer-events: none;
   color: var(--text-light);
   background: var(--background-container);
 }
