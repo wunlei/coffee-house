@@ -105,6 +105,12 @@
 }
 
 @media all and (max-width: 1000px) {
+  .header-nav__list {
+    column-gap: 25px;
+  }
+}
+
+@media all and (max-width: 769px) {
   .body_no-scroll {
     overflow-y: hidden;
   }
@@ -188,12 +194,11 @@
     width: 40px;
     height: 40px;
   }
-}
 
-@media all and (max-width: 1000px) {
   .header__btn-menu_active {
     pointer-events: all;
   }
+
   .header__btn-menu_active::after {
     transform: scaleX(0);
   }

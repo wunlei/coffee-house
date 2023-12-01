@@ -61,7 +61,7 @@
   row-gap: 20px;
   padding: 0;
   margin: 0;
-  margin-top: 40px;
+  margin-top: 39px;
 }
 
 .contacts-list__item {
@@ -70,7 +70,7 @@
 
 .contacts-list__link {
   display: flex;
-  column-gap: 10px;
+  column-gap: 8px;
   align-items: center;
   position: relative;
   width: fit-content;
@@ -111,6 +111,7 @@
 @media all and (max-width: 1439px) {
   .footer {
     padding: 100px 60px;
+    padding-bottom: 105px;
   }
 
   .footer-contacts {
@@ -121,6 +122,7 @@
 @media all and (max-width: 767px) {
   .footer {
     padding: 60px 16px;
+    padding-bottom: 65px;
   }
 
   .footer-contacts {

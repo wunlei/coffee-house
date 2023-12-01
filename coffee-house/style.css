@@ -366,6 +366,10 @@
     position: static;
   }
 
+  .download {
+    row-gap: 40px;
+  }
+
   .download__pic {
     width: 100%;
   }
@@ -399,7 +403,7 @@
 
   .gallery__item:hover .gallery__pic_1,
   .gallery__item:hover .gallery__pic_4 {
-    transform: none;
+    transform: scale(1.1);
   }
 
   .gallery__item:hover .gallery__pic_2,
