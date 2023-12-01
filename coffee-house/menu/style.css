@@ -41,6 +41,17 @@
   background: var(--background-container);
 }
 
+.badge__icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 100px;
+  background: var(--border-light);
+  transition: background-color 0.5s;
+}
+
 .nav-category__badge:hover .badge__icon {
   background: var(--background-body);
 }
@@ -53,17 +64,6 @@
 
 .nav-category__badge_active .badge__icon {
   background: var(--background-body);
-}
-
-.badge__icon {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 100px;
-  background: var(--border-light);
-  transition: background-color 0.5s;
 }
 
 /* grid */
@@ -113,9 +113,98 @@
   margin-bottom: 12px;
 }
 
+.btn-products-refresh {
+  display: none;
+  width: 60px;
+  height: 60px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  border: 1px solid var(--border-dark, #665f55);
+  background-color: transparent;
+  margin: 40px auto 0;
+  color: var(--text-dark);
+  transition: color 0.5s, background 0.5s;
+}
+
+.btn-products-refresh:hover {
+  cursor: pointer;
+  color: var(--text-light);
+  background: var(--background-container);
+}
 
 /* footer */
 
 .footer {
   margin-top: 100px;
+  margin-bottom: 40px;
+}
+
+@media (hover: none) {
+  .nav-category__badge:hover {
+    cursor: default;
+    color: inherit;
+    background: transparent;
+  }
+
+  .nav-category__badge:hover .badge__icon {
+    background: var(--border-light);
+  }
+
+  .card-product:hover {
+    cursor: default;
+  }
+
+  .card-product:hover .card-product__img {
+    transform: scale(1.1);
+  }
+
+  .btn-products-refresh:hover {
+    cursor: default;
+    color: var(--text-dark);
+    background: transparent;
+  }
+}
+
+@media all and (max-width: 1439px) {
+  /* .body {
+    padding: 0 40px;
+  } */
+
+  .menu__products {
+    grid-template-columns: repeat(2, min-content);
+    justify-content: center;
+    justify-items: center;
+    column-gap: 40px;
+  }
+
+  .card-product:nth-child(n + 5) {
+    display: none;
+  }
+
+  .btn-products-refresh {
+    display: flex;
+  }
+
+  /* .footer {
+    padding: 100px 60px;
+  }
+
+  .footer-contacts {
+    padding-top: 100px;
+  } */
+}
+
+@media all and (max-width: 767px) {
+  .body {
+    padding: 0 16px;
+    --body-padding: 16px;
+  }
+  .menu__products {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .nav-category {
+    column-gap: 8px;
+  }
 }
