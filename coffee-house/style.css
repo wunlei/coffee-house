@@ -28,7 +28,7 @@
 
 .hero-content {
   display: flex;
-  width: 530px;
+  max-width: 530px;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
@@ -173,7 +173,8 @@
 }
 
 .gallery__item {
-  width: 660px;
+  max-width: 660px;
+  width: 100%;
   height: 590px;
   border-radius: 20px;
   overflow: hidden;
@@ -189,27 +190,27 @@
   transition: transform 0.5s;
 }
 
-.gallery__item:nth-child(1) .gallery__pic,
-.gallery__item:nth-child(4) .gallery__pic {
+.gallery__pic_1,
+.gallery__pic_4 {
   width: 100%;
   transform: scale(1.1);
   transform-origin: bottom;
 }
 
-.gallery__item:nth-child(2) .gallery__pic,
-.gallery__item:nth-child(3) .gallery__pic {
+.gallery__pic_2,
+.gallery__pic_3 {
   position: absolute;
   top: -147px;
   left: -33px;
 }
 
-.gallery__item:nth-child(1):hover .gallery__pic,
-.gallery__item:nth-child(4):hover .gallery__pic {
+.gallery__item:hover .gallery__pic_1,
+.gallery__item:hover .gallery__pic_4 {
   transform: scale(101%);
 }
 
-.gallery__item:nth-child(2):hover .gallery__pic,
-.gallery__item:nth-child(3):hover .gallery__pic {
+.gallery__item:hover .gallery__pic_2,
+.gallery__item:hover .gallery__pic_3 {
   transform: scale(91%);
 }
 
@@ -219,10 +220,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .download-container {
-  width: 630px;
+  max-width: 630px;
   display: flex;
   flex-direction: column;
   row-gap: 40px;
@@ -251,9 +253,16 @@
   background-color: var(--background-container);
 }
 
+.btn-download__icon {
+  display: block;
+  width: 35px;
+  height: 35px;
+  transition: color 0.5s;
+  color: var(--text-dark);
+}
+
 .btn-download:hover .btn-download__icon {
-  filter: invert(100%) sepia(15%) saturate(300%) hue-rotate(348deg)
-    brightness(117%) contrast(83%);
+  color: var(--text-light);
 }
 
 .btn-download__title {
@@ -267,13 +276,7 @@
   font-size: 10px;
   font-style: normal;
   font-weight: 600;
-  line-height: 140%; /* 14px */
-}
-
-.btn-download__icon {
-  display: block;
-  width: 35px;
-  height: 35px;
+  line-height: 140%;
 }
 
 .download__pic {
@@ -284,4 +287,133 @@
 
 .footer {
   margin-bottom: 40px;
+}
+
+@media all and (max-width: 1439px) {
+  .hero {
+    padding: 100px 60px;
+  }
+
+  .gallery {
+    flex-wrap: nowrap;
+    align-items: center;
+    max-width: unset;
+    height: unset;
+  }
+
+  .gallery__pic_1,
+  .gallery__pic_4 {
+    transform: scale(1.058);
+    position: absolute;
+    top: -29px;
+  }
+
+  .gallery__item {
+    max-width: 688px;
+  }
+
+  .gallery__item:nth-child(2),
+  .gallery__item:nth-child(3) {
+    display: none;
+  }
+
+  .download {
+    flex-direction: column;
+    row-gap: 100px;
+  }
+
+  .download-container {
+    max-width: 100%;
+  }
+
+  /* .footer {
+    padding: 100px 60px;
+  }
+
+  .footer-contacts {
+    padding-top: 100px;
+  } */
+}
+
+@media all and (max-width: 767px) {
+  .body {
+    padding: 0 16px;
+    --body-padding: 16px;
+  }
+
+  .hero {
+    padding: 60px 16px;
+    min-height: 552px;
+    height: fit-content;
+  }
+
+  .slider-coffee-wrapper {
+    justify-content: center;
+  }
+  .slider-coffee__arrow {
+    display: none;
+  }
+
+  .gallery__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .gallery__pic {
+    width: auto;
+    transform: none;
+    position: static;
+  }
+
+  .download__pic {
+    width: 100%;
+  }
+
+  .download-btn-container {
+    flex-direction: column;
+    row-gap: 20px;
+  }
+}
+
+@media (hover: none) {
+  .hero__btn {
+    padding-left: 64px;
+    cursor: pointer;
+  }
+
+  .hero__btn::after {
+    opacity: 1;
+  }
+
+  .slider-coffee__arrow:hover {
+    cursor: default;
+    color: var(--text-dark);
+    background-color: transparent;
+  }
+
+  .slider-nav__btn:hover {
+    cursor: default;
+    background: var(--border-light, #c1b6ad);
+  }
+
+  .gallery__item:hover .gallery__pic_1,
+  .gallery__item:hover .gallery__pic_4 {
+    transform: none;
+  }
+
+  .gallery__item:hover .gallery__pic_2,
+  .gallery__item:hover .gallery__pic_3 {
+    transform: none;
+  }
+
+  .btn-download:hover {
+    cursor: default;
+    color: inherit;
+    background-color: transparent;
+  }
+
+  .btn-download:hover .btn-download__icon {
+    color: var(--text-dark);
+  }
 }
