@@ -24,6 +24,17 @@
   background-repeat: no-repeat;
   background-size: cover;
   margin-top: 0;
+  position: relative;
+}
+
+.hero-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 40px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .hero-content {
@@ -33,6 +44,8 @@
   justify-content: center;
   align-items: flex-start;
   row-gap: 40px;
+  position: relative;
+  z-index: 10;
 }
 
 .hero__heading {
