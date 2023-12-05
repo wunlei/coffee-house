@@ -80,13 +80,153 @@ function setupNav(parent) {
       el.classList.remove("slider-nav__btn_active");
     }
   });
+
+  changeSlideAuto();
 }
+
+let milliseconds = 5000;
+let setTimeoutId = 0;
+
+let startTime = Date.now();
+let remainingTime = milliseconds;
+let isPaused = false;
+
+function changeSlideAuto() {
+  clearTimeout(setTimeoutId);
+
+  startTime = Date.now();
+  remainingTime = milliseconds;
+
+  navBtns.forEach((el, ind) => {
+    if (ind === activeSlideId) {
+      el.classList.add("slider-nav__btn_active");
+    } else {
+      el.classList.remove("slider-nav__btn_active");
+    }
+  });
+
+  setTimeoutId = setTimeout(() => {
+    requestAnimationFrame(() => {
+      changeSlide(1);
+      navBtns.forEach((el, ind) => {
+        if (ind === activeSlideId) {
+          el.classList.add("slider-nav__btn_active");
+        } else {
+          el.classList.remove("slider-nav__btn_active");
+        }
+      });
+    });
+
+    changeSlideAuto();
+  }, milliseconds);
+}
+
+function pauseTimer() {
+  if (isPaused) return;
+
+  isPaused = true;
+
+  clearTimeout(setTimeoutId);
+
+  navBtns
+    .find((el) => el.classList.contains("slider-nav__btn_active"))
+    ?.classList.add("paused");
+  // timerId = null;
+  const timePassed = Date.now() - startTime;
+
+  remainingTime = remainingTime - timePassed;
+}
+
+function resumeTimer() {
+  if (!isPaused) return;
+  isPaused = false;
+  startTime = Date.now();
+  navBtns
+    .find((el) => el.classList.contains("slider-nav__btn_active"))
+    ?.classList.remove("paused");
+
+  setTimeoutId = setTimeout(() => {
+    requestAnimationFrame(() => {
+      changeSlide(1);
+    });
+
+    changeSlideAuto();
+  }, remainingTime);
+}
+
+function changeSlide(next) {
+  const sliderRow = document.querySelector(".slider-row");
+
+  if (sliderRow) {
+    let nextSlideId = activeSlideId + next;
+
+    if (nextSlideId > 2) {
+      activeSlideId = 0;
+      // sliderRow.style.transform = `translateX(0px)`;
+    } else if (nextSlideId < 0) {
+      activeSlideId = 2;
+    } else {
+      activeSlideId += next;
+    }
+
+    sliderRow.style.transform = `translateX(${activeSlideId * 100 * -1}%)`;
+
+    if (!isPaused) {
+      changeSlideAuto();
+    } else {
+      remainingTime = milliseconds;
+      navBtns.forEach((el, ind) => {
+        if (ind === activeSlideId) {
+          el.classList.add("slider-nav__btn_active", "paused");
+        } else {
+          el.classList.remove("slider-nav__btn_active", "paused");
+        }
+      });
+    }
+  }
+}
+
+let touchStartClientX = 0;
+let touchEndClientX = 0;
+
+let mouseStartClientX = 0;
+let mouseEndClientX = 0;
 
 function setupSliderRow(parent) {
   const wrapper = createElement("div", ["slider-slides"], "", parent);
   const container = createElement("div", ["slider-row"], "", wrapper);
 
   const elements = [];
+
+  container.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+
+    touchStartClientX = e.touches[0].clientX;
+
+    pauseTimer();
+  });
+  container.addEventListener("touchend", (e) => {
+    e.preventDefault();
+
+    touchEndClientX = e.changedTouches[0].clientX;
+    resumeTimer();
+    swipeEvent("touch");
+  });
+
+  // container.addEventListener("touchmove", (e) => {
+  //   e.preventDefault();
+  //   touchEndClientX = e.touches[0].clientX;
+  // });
+
+  container.addEventListener("mouseenter", pauseTimer);
+  container.addEventListener("mouseleave", resumeTimer);
+  container.addEventListener("mouseup", (e) => {
+    mouseEndClientX = e.clientX;
+    swipeEvent("mouse");
+  });
+  container.addEventListener("mousedown", (e) => {
+    mouseStartClientX = e.clientX;
+  });
 
   sliderData.forEach((el) => {
     const sliderContainer = createElement(
@@ -145,8 +285,28 @@ function setupSliderRow(parent) {
   });
 }
 
+function swipeEvent(eventType) {
+  if (eventType === "touch") {
+    const diff = touchStartClientX - touchEndClientX;
+    if (diff > 100) {
+      changeSlide(1);
+    } else if (diff < -100) {
+      changeSlide(-1);
+    }
+  }
+
+  if (eventType === "mouse") {
+    const diff = mouseStartClientX - mouseEndClientX;
+    if (diff > 100) {
+      changeSlide(1);
+    } else if (diff < -100) {
+      changeSlide(-1);
+    }
+  }
+}
+
 function setupSlider() {
-  const container = document.querySelector < HTMLElement > ".slider-coffee";
+  const container = document.querySelector(".slider-coffee");
 
   if (container) {
     const wrapper = createElement(
