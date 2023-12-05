@@ -116,6 +116,7 @@
   background-color: transparent;
   color: var(--text-dark);
   transition: color 0.5s, background 0.5s;
+  flex-shrink: 0;
 }
 
 .slider-coffee__arrow:hover {
@@ -128,9 +129,29 @@
   transform: rotate(180deg);
 }
 
+.slider-slides {
+  overflow: hidden;
+  width: 100%;
+}
+
+.slider-row {
+  display: flex;
+  transition: transform 0.5s;
+}
+
+.slider-element {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  flex-shrink: 0;
+
+}
+
 .slider-coffee-container {
   text-align: center;
   max-width: 480px;
+  user-select: none;
 }
 
 .slider-coffee__img {
@@ -158,16 +179,47 @@
   height: 4px;
   border-radius: 100px;
   background: var(--border-light, #c1b6ad);
-  transition: background-color 0.5s;
+  transition: background-position 0.5s ease-in-out;
 }
 
-.slider-nav__btn:hover {
+/* .slider-nav__btn:hover {
   cursor: pointer;
   background: var(--border-dark, #665f55);
-}
+} */
 
 .slider-nav__btn_active {
-  background: var(--border-dark, #665f55);
+  /* background: var(--border-dark, #665f55);
+   */
+  background: linear-gradient(to right, #665f55 50%, #c1b6ad 50%);
+  background-size: 200%;
+  background-position-x: 100%;
+  animation-duration: 5s;
+  /* animation-iteration-count: infinite; */
+  animation-name: progress;
+  animation-timing-function: linear;
+
+}
+
+.slider-nav__btn_active.paused {
+    -webkit-animation-play-state:paused;
+    -moz-animation-play-state:paused;
+    -o-animation-play-state:paused;
+    animation-play-state:paused;
+
+}
+
+@keyframes progress {
+  0% {
+    background-position-x: 100%;
+  }
+
+  99% {
+    background-position-x: 0%;
+  }
+
+  100% {
+    background-position-x: 100%;
+  }
 }
 
 /* about */
@@ -360,9 +412,10 @@
     height: fit-content;
   }
 
-  .slider-coffee-wrapper {
+  /* .slider-coffee-wrapper {
     justify-content: center;
-  }
+  } */
+
   .slider-coffee__arrow {
     display: none;
   }
