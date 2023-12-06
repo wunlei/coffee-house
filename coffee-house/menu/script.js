@@ -43,6 +43,8 @@ function addCategories(data) {
   });
 
   addBadges(categories);
+
+  updateCategory(categories[0]);
 }
 
 function createBadge(name, container) {
@@ -75,25 +77,55 @@ function addBadges(list) {
       element: createBadge(el, container),
     };
 
+    badge.element.onclick = (event) => {
+      const badge = event.currentTarget;
+      if (badge instanceof HTMLElement) {
+        if (badge.dataset.type) updateCategory(badge.dataset.type);
+      }
+    };
+
     badges.push(badge);
   });
 }
 
-function addProducts(data) {
+function updateCategory(category) {
+  currCategory = category;
+
+  if (isMobile) {
+    itemsCount = 4;
+  } else {
+    itemsCount = 8;
+  }
+
+  if (data) products = data.filter((el) => el.category === currCategory);
+
+  badges.forEach((el) => {
+    if (el.name === currCategory) {
+      el.element.classList.add("nav-category__badge_active");
+    } else {
+      el.element.classList.remove("nav-category__badge_active");
+    }
+  });
+
+  updateRefreshBtn();
+
+  addProducts(products, true);
+
+  /* add active class to btn */
+}
+
+function addProducts(data, updateCategory) {
   const grid = document.querySelector(".menu__products");
 
   let products = data;
 
-  if (grid) {
+  if (grid && updateCategory) {
     grid.replaceChildren();
     products = products.slice(0, itemsCount);
   }
   products.forEach((el, index) => {
     const card = createElement("div", ["card-product"], "", grid);
 
-    card.onclick = () => {
-      createModal(el.name);
-    };
     const imgWrapper = createElement(
       "div",
       ["card-product__img-wrapper"],
@@ -128,7 +160,7 @@ function addProducts(data) {
   });
 }
 
-function createOptionsElement(title, options, parent) {
+function createOptionsElement(title, options, parent, updateTotalPrice) {
   const container = createElement("div", ["options-container"], "", parent);
   const p = createElement("p", ["options__title", "medium"], title, container);
   const badgesContainer = createElement(
@@ -156,8 +188,10 @@ function createOptionsElement(title, options, parent) {
           badges.forEach((el) => {
             if (el.element === target) {
               target.classList.add("options-badge_active");
+              updateTotalPrice(el.price);
             } else {
               if (el.element.classList.contains("options-badge_active")) {
+                updateTotalPrice(-el.price);
                 el.element.classList.remove("options-badge_active");
               }
             }
@@ -172,8 +206,10 @@ function createOptionsElement(title, options, parent) {
             if (el.element === target) {
               if (el.element.classList.contains("options-badge_active")) {
                 el.element.classList.remove("options-badge_active");
+                updateTotalPrice(-el.price);
               } else {
                 target.classList.add("options-badge_active");
+                updateTotalPrice(el.price);
               }
             }
           });
@@ -202,6 +238,81 @@ function createOptionsElement(title, options, parent) {
   }
 }
 
+function updateProductsCount() {
+  const cards = document.querySelectorAll(".card-product");
+  if (cards.length < itemsCount) {
+    // pd.l = 4 < 8 => 0 - 3
+    if (products) {
+      const data = [...products].slice(cards.length, itemsCount + 1);
+      addProducts(data, false);
+    }
+  } else {
+    cards.forEach((el, i) => {
+      if (i >= itemsCount) {
+        el.remove();
+      }
+    });
+  }
+
+  updateRefreshBtn();
+}
+
+function setupRefreshBtn() {
+  const refreshBtn = document.querySelector(".btn-products-refresh");
+
+  if (refreshBtn) {
+    refreshBtn.onclick = () => {
+      if (itemsCount + 4 < products.length) {
+        itemsCount += 4;
+      } else {
+        itemsCount = products.length;
+        refreshBtn.classList.add("hidden");
+      }
+
+      updateProductsCount();
+    };
+
+    if (itemsCount === products.length) {
+      refreshBtn.classList.add("hidden");
+    }
+  }
+}
+
+function updateRefreshBtn() {
+  const refreshBtn = document.querySelector(".btn-products-refresh");
+  if (refreshBtn) {
+    if (itemsCount === products.length) {
+      refreshBtn.classList.add("hidden");
+    } else {
+      refreshBtn.classList.remove("hidden");
+    }
+  }
+}
+
+function setupResizeObserver() {
+  const body = document.querySelector(".body");
+  const resizeObserver = new ResizeObserver((entries) => {
+    let mql = window.matchMedia("(max-width: 768px)");
+    if (mql.matches) {
+      if (!isMobile) {
+        isMobile = true;
+        itemsCount = 4;
+        updateProductsCount();
+      }
+    } else {
+      if (isMobile) {
+        isMobile = false;
+        itemsCount = 8;
+        updateProductsCount();
+      }
+    }
+  });
+
+  if (body) {
+    resizeObserver.observe(body, { box: "border-box" });
+  }
+}
+
 async function setupMenu() {
   data = await fetchData(DATA_URL);
   if (data) {
@@ -210,6 +321,8 @@ async function setupMenu() {
       addProducts(products, true);
     }
   }
+  setupResizeObserver();
+  setupRefreshBtn();
 }
 
 function setupBurgerMenu() {
@@ -238,5 +351,7 @@ function setupBurgerMenu() {
     });
   }
 }
+
+document.addEventListener("DOMContentLoaded", setupMenu);
 
 document.addEventListener("DOMContentLoaded", setupBurgerMenu);
