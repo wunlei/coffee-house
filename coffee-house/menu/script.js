@@ -1,3 +1,45 @@
+const alertContent = `
+<svg
+  class="alert__icon"
+  width="16"
+  height="16"
+  viewBox="0 0 16 16"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <g clip-path="url(#clip0_268_12877)">
+    <path
+      d="M8 7.66663V11"
+      stroke="#403F3D"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M8 5.00667L8.00667 4.99926"
+      stroke="#403F3D"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M7.99967 14.6667C11.6816 14.6667 14.6663 11.6819 14.6663 8.00004C14.6663 4.31814 11.6816 1.33337 7.99967 1.33337C4.31778 1.33337 1.33301 4.31814 1.33301 8.00004C1.33301 11.6819 4.31778 14.6667 7.99967 14.6667Z"
+      stroke="#403F3D"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </g>
+  <defs>
+    <clipPath id="clip0_268_12877">
+      <rect width="16" height="16" fill="white" />
+    </clipPath>
+  </defs>
+</svg>
+
+<p class="alert__text caption">
+  The cost is not final. Download our mobile app to see the final
+  price and place your order. Earn loyalty points and enjoy your
+  favorite coffee with up to 20% discount.
+</p>`;
+
 const DATA_URL = "../assets/data/products.json";
 const categories = [];
 let currCategory = "Coffee";
@@ -126,6 +168,9 @@ function addProducts(data, updateCategory) {
   products.forEach((el, index) => {
     const card = createElement("div", ["card-product"], "", grid);
 
+    card.onclick = () => {
+      createModal(el.name);
+    };
     const imgWrapper = createElement(
       "div",
       ["card-product__img-wrapper"],
@@ -158,6 +203,142 @@ function addProducts(data, updateCategory) {
       content
     );
   });
+}
+
+function createModal(name) {
+  if (data) {
+    const element = data.find((el) => el.name === name);
+    if (element) {
+      const body = document.querySelector(".body");
+      body?.classList.add("body_no-scroll");
+
+      let formatter = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "EUR",
+      });
+
+      let getCurrPrice = (num) => formatter.format(Number(num));
+      let currPrice = Number(element.price);
+
+      // hide scroll
+
+      const wrapper = createElement("div", ["modal-wrapper"], "", body);
+      const modalOverflow = createElement(
+        "div",
+        ["modal-overflow"],
+        "",
+        wrapper
+      );
+      const modal = createElement("div", ["modal"], "", wrapper);
+      const imgWrapper = createElement(
+        "picture",
+        ["modal__img-wrapper"],
+        "",
+        modal
+      );
+      const img = createElement("img", ["modal__img"], "", imgWrapper);
+      img.alt = element.name;
+      img.src = `../assets/pictures/menu/${element.name}.jpg`;
+
+      const modalContent = createElement("div", ["modal-content"], "", modal);
+      const modalDesc = createElement(
+        "div",
+        ["modal__description"],
+        "",
+        modalContent
+      );
+      const prodTitle = createElement(
+        "h3",
+        ["modal__product-title", "heading", "heading-3"],
+        element.name,
+        modalDesc
+      );
+      const prodDesc = createElement(
+        "p",
+        ["modal__product-des", "text-medium"],
+        element.description,
+        modalDesc
+      );
+
+      const size = Object.entries(element.sizes).map((el) => {
+        return {
+          text: el[1].size,
+          icon: el[0],
+          price: el[1]["add-price"],
+        };
+      });
+
+      const adj = Object.entries(element.additives).map((el, ind) => {
+        return {
+          icon: `${ind + 1}`,
+          text: el[1].name,
+          price: el[1]["add-price"],
+        };
+      });
+
+      const optionsSize = createOptionsElement(
+        "Size",
+        size,
+        modalContent,
+        updateTotalPrice
+      );
+
+      const optionsAdditives = createOptionsElement(
+        "Additives",
+        adj,
+        modalContent,
+        updateTotalPrice
+      );
+
+      const totalContainer = createElement(
+        "div",
+        ["modal__total"],
+        "",
+        modalContent
+      );
+
+      const totalTitle = createElement(
+        "p",
+        ["total-title", "heading-3"],
+        "Total:",
+        totalContainer
+      );
+
+      const totalPrice = createElement(
+        "p",
+        ["card-product__price", "heading-3"],
+        getCurrPrice(currPrice),
+        totalContainer
+      );
+
+      function updateTotalPrice(newPrice) {
+        currPrice = currPrice + newPrice;
+        totalPrice.textContent = getCurrPrice(currPrice);
+      }
+
+      const alert = createElement("div", ["alert"], "", modalContent);
+      alert.innerHTML = alertContent;
+
+      const closeBtn = createElement(
+        "button",
+        ["options__btn", "button"],
+        "Close",
+        modalContent
+      );
+
+      modalOverflow.onclick = (e) => {
+        if (e.target === modalOverflow) {
+          body?.classList.remove("body_no-scroll");
+          wrapper.remove();
+        }
+      };
+
+      closeBtn.onclick = () => {
+        body?.classList.remove("body_no-scroll");
+        wrapper.remove();
+      };
+    }
+  }
 }
 
 function createOptionsElement(title, options, parent, updateTotalPrice) {
