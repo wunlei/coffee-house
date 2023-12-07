@@ -107,6 +107,10 @@ li {
   --body-padding: 40px;
 }
 
+.body_no-scroll {
+  overflow-y: hidden;
+}
+
 .text_accent {
   color: var(--text-accent);
   font-style: italic;

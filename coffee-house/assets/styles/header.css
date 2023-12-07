@@ -111,10 +111,6 @@
 }
 
 @media all and (max-width: 769px) {
-  .body_no-scroll {
-    overflow-y: hidden;
-  }
-
   .header__burger-menu-btn {
     display: block;
     background-color: transparent;
