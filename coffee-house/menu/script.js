@@ -462,7 +462,7 @@ function setupRefreshBtn() {
 function updateRefreshBtn() {
   const refreshBtn = document.querySelector(".btn-products-refresh");
   if (refreshBtn) {
-    if (itemsCount === products.length) {
+    if (itemsCount >= products.length) {
       refreshBtn.classList.add("hidden");
     } else {
       refreshBtn.classList.remove("hidden");
@@ -515,7 +515,7 @@ function setupBurgerMenu() {
     burgerBtn.addEventListener("click", () => {
       burgerBtn.classList.toggle("header__burger-menu-btn_active");
       burgerMenu.classList.toggle("header-nav_burger-active");
-      body.classList.toggle("body_no-scroll");
+      body.classList.toggle("body_burger-active");
     });
 
     const links = document.querySelectorAll(".header-nav__link");
@@ -526,7 +526,7 @@ function setupBurgerMenu() {
         el.addEventListener("click", () => {
           burgerBtn.classList.toggle("header__burger-menu-btn_active");
           burgerMenu.classList.toggle("header-nav_burger-active");
-          body.classList.toggle("body_no-scroll");
+          body.classList.toggle("body_burger-active");
         });
       }
     });

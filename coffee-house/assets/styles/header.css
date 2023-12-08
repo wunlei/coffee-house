@@ -111,6 +111,10 @@
 }
 
 @media all and (max-width: 769px) {
+  .body_burger-active {
+    overflow-y: hidden;
+  }
+
   .header__burger-menu-btn {
     display: block;
     background-color: transparent;
@@ -167,7 +171,7 @@
   .header-nav__list {
     flex-direction: column;
     align-items: center;
-    padding: 60px;
+    padding: 80px 60px;
     row-gap: 60px;
     text-align: center;
   }
@@ -181,7 +185,7 @@
   }
 
   .header__btn-menu {
-    padding-top: 40px;
+    padding-top: 20px;
     column-gap: 17px;
   }
 
